@@ -1,8 +1,12 @@
 #Makefile
 PORT ?= 8000
 
+install-whl:
+	pip dist/install hexlet_code-0.1.0-py3-none-any.whl
+
 build:
 	poetry build
+	install-whl
 
 install:
 	poetry install
@@ -14,3 +18,5 @@ dev:
 
 start:
 	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
+
+
