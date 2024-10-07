@@ -16,7 +16,6 @@ schema-load:
 install:
 	poetry install
 
-
 dev:
 	poetry run flask --debug --app page_analyzer:app run
 
