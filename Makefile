@@ -6,7 +6,12 @@ install-whl:
 
 build:
 	poetry build
-	install-whl
+
+db-create:
+	createdb project83
+
+schema-load:
+	psql project83 < database.sql
 
 install:
 	poetry install
