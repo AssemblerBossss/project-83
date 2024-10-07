@@ -13,7 +13,7 @@ install:
 
 
 dev:
-	poetry run flask --app page_analyzer:app run
+	poetry run flask --debug --app page_analyzer:app run
 
 
 start:
