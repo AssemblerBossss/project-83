@@ -81,6 +81,15 @@ def add_new_url_to_db(url) -> int:
 
 
 def get_url_checks_by_id(url_id: int) -> list[NamedTuple]:
+    """
+    Возвращает все проверки для заданного URL по его ID, отсортированные по дате создания и ID в порядке убывания.
+
+    Args:
+        url_id (int): ID URL для получения проверок.
+
+    Returns:
+        list[NamedTuple]: Список всех проверок для заданного URL, отсортированных по дате создания и ID в порядке убывания.
+    """
     with get_db_connection() as connection:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
             cursor.execute(
@@ -91,13 +100,27 @@ def get_url_checks_by_id(url_id: int) -> list[NamedTuple]:
 
 
 
-def add_url_check(id, statis_code, h1, title, description) -> NoReturn:
+def add_url_check(id: int, status_code: int, h1: str | None, title: str | None, description: str | None) -> NoReturn:
+    """
+    Добавляет новую проверку URL в базу данных.
+
+    Args:
+        id: ID URL для добавления проверки.
+        status_code: Код состояния HTTP.
+        h1: Текст заголовка H1.
+        title: Текст заголовка страницы.
+        description: Описание страницы.
+
+    Returns:
+        NoReturn: Функция не возвращает значения.
+    """
+
     current_date = datetime.now().strftime('%Y-%m-%d')
     with get_db_connection() as connection:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
             cursor.execute(
                 '''INSERT INTO url_checks (url_id, statis_code, h1, title, description, created_at)
-                VALUES (%s, %s, %s, %s, %s, %s)''', (id, statis_code, h1, title, description, current_date)
+                VALUES (%s, %s, %s, %s, %s, %s)''', (id, status_code, h1, title, description, current_date)
             )
             connection.commit()
 
