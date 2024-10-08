@@ -125,4 +125,40 @@ def add_url_check(id: int, status_code: int, h1: str | None, title: str | None, 
             connection.commit()
 
 
+def get_url_name_by_id(id):
+    """
+    Возвращает имя URL по его ID.
+
+    Args:
+        id (int): ID URL для получения имени.
+
+    Returns:
+        str: Имя URL, соответствующее заданному ID.
+    """
+
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=NamedTupleCursor) as cursor:
+            cursor.execute("SELECT name FROM urls WHERE id = %s", (id,))
+            return cursor.fetchone()[0]
+
+
+def get_latest_url_check():
+    """
+    Возвращает последние проверки для каждого URL, отсортированные по дате создания в порядке убывания.
+
+    Returns:
+        list: Список последних проверок для каждого URL, отсортированных по дате создания в порядке убывания.
+    """
+
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=NamedTupleCursor) as cursor:
+            cursor.execute(
+                """
+                SELECT DISTINCT ON (url_id) url_id, status_code, created_at
+                FROM url_checks
+                ORDER BY url_id, created_at DESC;
+                """
+            )
+            return cursor.fetchall()
+
 
