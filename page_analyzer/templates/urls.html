@@ -5,13 +5,13 @@
     <div class="container-lg mt-3">
         <h1>Сайты</h1>
         <div class="table-responsive">
-            <table class="table table-borderless table-hover ">
+            <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Имя</th>
-                        <th scope="col">Последняя проверка</th>
-                        <th scope="col">Код ответа</th>
+                        <th>ID</th>
+                        <th>Имя</th>
+                        <th>Последняя проверка</th>
+                        <th>Код ответа</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -20,12 +20,8 @@
                     <tr>
                         <td>{{ url.id }}</td>
                         <td><a href="/">{{ url.name }}</a></td>
-<!--                        <td>-->
-<!--                        {% if checks[url.id] %}-->
-<!--                        {{ checks[url.id].created_at }}-->
-<!--                        {% endif %}-->
-                        </td>
                         <td>{{ url.id }}</td>
+                        <td>NOTHING</td>
                     </tr>
                     {% endfor %}
                     {% endif %}

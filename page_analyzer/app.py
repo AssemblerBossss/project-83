@@ -46,3 +46,8 @@ def add_url():
         added_url_id = add_new_url_to_db(url)
         flash('Страница успешно добавлена', 'alert-success')
         return redirect('/')
+
+
+@app.get('/urls/<id>')
+def show_url_info(id):
+    return {1:1}
