@@ -35,7 +35,7 @@ def get_url_id_if_exists(url):
     with get_db_connection() as connection:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
             cursor.execute(
-                '''SELECT * FROM urls WHERE name = %s''', (url,)
+                '''SELECT * FROM urls WHERE name = %s;''', (url,)
             )
             result = cursor.fetchone()
             return result.id if result else None
@@ -52,7 +52,7 @@ def get_all_urls() ->list[NamedTuple]:
     with get_db_connection() as connection:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
             cursor.execute(
-                '''SELECT * FROM urls ORDER BY created_at DESC'''
+                '''SELECT * FROM urls ORDER BY created_at DESC;'''
             )
             return cursor.fetchall()
 
@@ -73,7 +73,7 @@ def add_new_url_to_db(url) -> int:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
             cursor.execute(
                 'INSERT INTO urls (name, created_at)\n'
-                '                 VALUES (%s, %s, %s) RETURNING id', (url, current_date)
+                '                 VALUES (%s, %s) RETURNING id', (url, current_date)
             )
             new_id: int = cursor.fetchone()[0]
             connection.commit()
