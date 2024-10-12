@@ -10,6 +10,7 @@ from .url_repo import (
     get_url_checks_by_id,
     get_url_name_by_id,
     get_url_id_if_exists,
+    get_url_info_by_id
 )
 
 from flask import (
@@ -61,4 +62,6 @@ def add_url():
 
 @app.get('/urls/<id>')
 def show_url_info(id):
-    url_info = g
+    url_info = get_url_info_by_id(id)
+    url_check = get_url_checks_by_id(id)
+    return render_template('url.html', url_info=url_info)
