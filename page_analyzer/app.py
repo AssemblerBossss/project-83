@@ -61,4 +61,4 @@ def add_url():
 
 @app.get('/urls/<id>')
 def show_url_info(id):
-    return {1:1}
+    url_info = g

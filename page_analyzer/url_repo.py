@@ -79,6 +79,12 @@ def add_new_url_to_db(url) -> int:
             connection.commit()
             return new_id
 
+def get_url_info_by_id(id):
+    with get_db_connection() as connection:
+        with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
+            cursor.execute('''SELECT * FROM urls WHERE id = %s;''', (id,))
+            cursor.fetchone()
+
 
 def get_url_checks_by_id(url_id: int) -> list[NamedTuple]:
     """
@@ -93,8 +99,8 @@ def get_url_checks_by_id(url_id: int) -> list[NamedTuple]:
     with get_db_connection() as connection:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
             cursor.execute(
-                'SELECT * FROM url_checks WHERE url_id = %s\n'
-                '                 ORDER BY created_at DESC, id DESC', (url_id,)
+                "SELECT * FROM url_checks WHERE url_id = %s\n"
+                "                 ORDER BY created_at DESC, id DESC", (url_id,)
             )
             return cursor.fetchall()
 
