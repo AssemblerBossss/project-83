@@ -64,4 +64,4 @@ def add_url():
 def show_url_info(id):
     url_info = get_url_info_by_id(id)
     url_check = get_url_checks_by_id(id)
-    return render_template('url.html', url_info=url_info)
+    return render_template('url.html', url_info=url_info, check=url_check)
