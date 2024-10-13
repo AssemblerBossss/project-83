@@ -126,7 +126,7 @@ def add_url_check(id: int, status_code: int, h1: str | None, title: str | None, 
     with get_db_connection() as connection:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
             cursor.execute(
-                '''INSERT INTO url_checks (url_id, statis_code, h1, title, description, created_at)
+                '''INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
                 VALUES (%s, %s, %s, %s, %s, %s)''', (id, status_code, h1, title, description, current_date)
             )
             connection.commit()

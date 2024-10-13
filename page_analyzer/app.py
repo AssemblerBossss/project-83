@@ -66,4 +66,11 @@ def add_url():
 def show_url_info(id):
     url_info = get_url_info_by_id(id)
     url_check = get_url_checks_by_id(id)
-    return render_template('url.html', url_info=url_info, check=url_check)
+    return render_template('url.html', url_info=url_info, checks=url_check)
+
+
+@app.post('/urls/<id>/checks')
+def check_url(id):
+    url_name = get_url_name_by_id(id)
+    add_url_check(id, 200, 'Nothing', 'None', 'None')
+    return redirect(url_for('show_url_info', id=id))
