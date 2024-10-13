@@ -14,7 +14,7 @@ schema-load:
 	psql project83 < database.sql
 
 install:
-	poetry install
+	poetry install,
 
 dev:
 	poetry run flask --debug --app page_analyzer:app run

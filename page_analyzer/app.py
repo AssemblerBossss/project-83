@@ -34,7 +34,9 @@ def index():
 @app.get('/urls')
 def get_urls():
     urls = get_all_urls()
-    return render_template('urls.html', urls=urls)
+    checks = get_latest_url_check()
+    checks_dict = {check.url_id: check for check in checks}
+    return render_template('urls.html', urls=urls, checks=checks_dict)
 
 
 @app.post('/new_url')
