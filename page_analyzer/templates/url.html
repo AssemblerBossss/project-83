@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<main class="flex-grow-1">
-  <div class="container-lg mt-3">
     <h1>Сайт: {{url_info.name}}</h1>
     <div class="table-responsive">
       <table class="table table-bordered table-hover text-nowrap">
@@ -28,7 +26,7 @@
       </form>
 
     <div>
-      <table class="table table-bordered table-hover mt-2">
+      <table class="table table-bordered table-hover mt-2" data-test="checks">
         <thead>
           <th>ID</th>
           <th>Код ответа</th>
@@ -53,6 +51,4 @@
         </tbody>
       </table>
     </div>
-  </div>
-</main>
 {% endblock %}

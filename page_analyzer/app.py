@@ -1,6 +1,5 @@
 import os
 from dotenv import load_dotenv
-import psycopg2
 from .validator import normalize_url, is_valid_url
 from .url_repo import (
     add_new_url_to_db,
