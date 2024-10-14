@@ -23,7 +23,8 @@ def get_db_connection():
 
 def get_url_id_if_exists(url):
     """
-    Проверяет, существует ли заданный URL в базе данных, и возвращает его ID, если он существует.
+    Проверяет, существует ли заданный URL в базе данных, и возвращает его ID,
+    если он существует.
 
     Args:
         url (str): URL для проверки.
@@ -41,12 +42,14 @@ def get_url_id_if_exists(url):
             return result.id if result else None
 
 
-def get_all_urls() ->list[NamedTuple]:
+def get_all_urls() -> list[NamedTuple]:
     """
-    Возвращает все URL из базы данных, отсортированные по дате создания в порядке убывания.
+    Возвращает все URL из базы данных, отсортированные по дате
+    создания в порядке убывания.
 
     Returns:
-        list: Список всех URL, отсортированных по дате создания в порядке убывания.
+        list: Список всех URL, отсортированных по дате создания
+    в порядке убывания.
     """
 
     with get_db_connection() as connection:
@@ -73,7 +76,7 @@ def add_new_url_to_db(url) -> int:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
             cursor.execute(
                 'INSERT INTO urls (name, created_at)\n'
-                '                 VALUES (%s, %s) RETURNING id', (url, current_date)
+                '      VALUES (%s, %s) RETURNING id', (url, current_date)
             )
             new_id: int = cursor.fetchone()[0]
             connection.commit()
@@ -89,13 +92,15 @@ def get_url_info_by_id(id):
 
 def get_url_checks_by_id(url_id: int) -> list[NamedTuple]:
     """
-    Возвращает все проверки для заданного URL по его ID, отсортированные по дате создания и ID в порядке убывания.
+    Возвращает все проверки для заданного URL по его ID,
+    отсортированные по дате создания и ID в порядке убывания.
 
     Args:
         url_id (int): ID URL для получения проверок.
 
     Returns:
-        list[NamedTuple]: Список всех проверок для заданного URL, отсортированных по дате создания и ID в порядке убывания.
+        list[NamedTuple]: Список всех проверок для заданного URL,
+    отсортированных по дате создания и ID в порядке убывания.
     """
     with get_db_connection() as connection:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
@@ -106,8 +111,12 @@ def get_url_checks_by_id(url_id: int) -> list[NamedTuple]:
             return cursor.fetchall()
 
 
-
-def add_url_check(id: int, status_code: int, h1: str | None, title: str | None, description: str | None) -> NoReturn:
+def add_url_check(
+        id: int,
+        status_code: int,
+        h1: str | None,
+        title: str | None,
+        description: str | None) -> NoReturn:
     """
     Добавляет новую проверку URL в базу данных.
 
@@ -126,8 +135,10 @@ def add_url_check(id: int, status_code: int, h1: str | None, title: str | None, 
     with get_db_connection() as connection:
         with connection.cursor(cursor_factory=NamedTupleCursor) as cursor:
             cursor.execute(
-                '''INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at)
-                VALUES (%s, %s, %s, %s, %s, %s)''', (id, status_code, h1, title, description, current_date)
+                '''INSERT INTO url_checks
+                 (url_id, status_code, h1, title, description, created_at)
+                 VALUES (%s, %s, %s, %s, %s, %s)''',
+            (id, status_code, h1, title, description, current_date)
             )
             connection.commit()
 
@@ -151,10 +162,12 @@ def get_url_name_by_id(id):
 
 def get_latest_url_check():
     """
-    Возвращает последние проверки для каждого URL, отсортированные по дате создания в порядке убывания.
+    Возвращает последние проверки для каждого URL,
+    отсортированные по дате создания в порядке убывания.
 
     Returns:
-        list: Список последних проверок для каждого URL, отсортированных по дате создания в порядке убывания.
+        list: Список последних проверок для каждого URL,
+    отсортированных по дате создания в порядке убывания.
     """
 
     with get_db_connection() as conn:
@@ -167,5 +180,3 @@ def get_latest_url_check():
                 """
             )
             return cursor.fetchall()
-
-
