@@ -1,5 +1,8 @@
 import os
+import requests
+from http import HTTPStatus
 from dotenv import load_dotenv
+from validators import ValidationError
 from .validator import normalize_url, is_valid_url
 from .url_repo import (
     add_new_url_to_db,
@@ -56,7 +59,7 @@ def add_url():
         else:
             flash('Invalid URL', 'alert-danger')
             return render_template('index.html'), 422
-    except Exception as e:
+    except ValidationError:
         flash('Ошибка валидации URL', 'alert-danger')
         return render_template('index.html'), 422
 
@@ -71,5 +74,19 @@ def show_url_info(id):
 @app.post('/urls/<id>/checks')
 def check_url(id):
     url_name = get_url_name_by_id(id)
-    add_url_check(id, 200, 'Nothing', 'None', 'None')
+    try:
+        responce = requests.get(url_name)
+        status_code = responce.status_code
+        if status_code == HTTPStatus.OK:
+            html_content = responce.text
+            site_data = zatychka()
+
+            h1, title, description = site_data.get('h1'), \
+                    site_data.get('title'), site_data.get('description')
+            add_url_check(id, status_code, h1, title, description)
+            flash('Страница успешно проверена', 'alert-success')
+        else:
+            flash('Произошла ошибка при проверке', 'alert-danger')
+    except request.exception.RequestException:
+        flash('Произошла ошибка при проверке', 'alert-danger')
     return redirect(url_for('show_url_info', id=id))
