@@ -13,6 +13,7 @@ from flask import (
     Response,
 )
 
+from .parser import get_seo_information
 from .validator import normalize_url, is_valid_url
 from .url_repo import (
     add_new_url_to_db,
@@ -109,10 +110,9 @@ def check_url(id):
         responce = requests.get(url_name)
         status_code = responce.status_code
         if status_code == HTTPStatus.OK:
-            site_data = {'h1': 'None', 'title': 'title', 'description': 'description'} #zatychka()
-
+            site_data =  get_seo_information(responce.text)
             h1, title, description = site_data.get('h1'), \
-                site_data.get('title'), site_data.get('description')
+                 site_data.get('title'), site_data.get('description')
             add_url_check(id, status_code, h1, title, description)
             flash('Страница успешно проверена', 'alert-success')
         else:
